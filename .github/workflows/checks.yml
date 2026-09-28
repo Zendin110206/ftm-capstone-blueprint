@@ -1,0 +1,23 @@
+name: Checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  content:
+    name: Syntax and content integrity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check JavaScript syntax
+        run: for f in site/assets/js/*.js; do node --check "$f"; done
+      - name: Check cross-references, sources, and sensitive patterns
+        run: node scripts/check-content.mjs
