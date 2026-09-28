@@ -1,0 +1,659 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cetak Biru FTM 2.0</title>
+    <meta
+      name="description"
+      content="Cetak biru interaktif Tugas Akhir: Fuel Tank Management berbasis IoT untuk berbagai model tangki dengan transmisi data hemat energi — masalah lapangan, audit sistem, tiga pilar riset, arsitektur, eksperimen, dan roadmap."
+    />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#fafaf8" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f1113" media="(prefers-color-scheme: dark)" />
+    <meta property="og:title" content="Cetak Biru FTM 2.0" />
+    <meta property="og:description" content="Fuel Tank Management berbasis IoT: akurat untuk berbagai bentuk tangki, hemat energi saat mengirim data." />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&display=swap"
+    />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem("ftm-theme");
+          if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+        } catch (e) {}
+      })();
+    </script>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/"
+        }
+      }
+    </script>
+    <script type="module" src="assets/js/main.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#konten">Lewati ke konten</a>
+
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="Cetak Biru FTM 2.0, kembali ke atas">
+        <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true">
+          <rect x="3.5" y="8" width="25" height="19" rx="6" fill="none" stroke="currentColor" stroke-width="2" />
+          <path d="M5 19.5c3.5-1.8 7.5 1.8 11 0s7.5-1.8 11 0v2.5a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4z" fill="#d08a2a" />
+          <path d="M16 3.5v5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+        <span class="brand-name">Cetak Biru FTM 2.0</span>
+        <span class="brand-sub">Rencana Tugas Akhir</span>
+      </a>
+      <div class="topbar-actions">
+        <button class="icon-btn" id="open-search" type="button" aria-label="Cari topik (Ctrl+K)">
+          <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2" /><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+          <span class="wide">Cari</span><kbd class="wide">Ctrl K</kbd>
+        </button>
+        <button class="icon-btn" id="theme-toggle" type="button" aria-label="Ganti tema">
+          <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z" fill="currentColor" /></svg>
+        </button>
+        <button class="icon-btn menu-btn" id="menu-toggle" type="button" aria-expanded="false" aria-controls="nav-sheet" aria-label="Daftar isi">
+          <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+          <span class="wide">Daftar isi</span>
+        </button>
+      </div>
+      <div class="progress" id="progress"></div>
+    </header>
+    <nav class="nav-sheet" id="nav-sheet" hidden aria-label="Daftar isi"><ol class="toc" id="toc-sheet"></ol></nav>
+
+    <div class="shell">
+      <aside class="sidebar" aria-label="Daftar isi">
+        <p class="toc-title">Daftar isi</p>
+        <ol class="toc" id="toc-side"></ol>
+        <p class="sidebar-foot">
+          Klik baris, node, atau batang mana pun untuk membuka penjelasan, sumber, dan perbandingannya. Tekan <kbd>Ctrl K</kbd> untuk mencari.
+        </p>
+      </aside>
+
+      <main class="main" id="konten">
+        <!-- =========================================================== HERO -->
+        <section class="hero" id="top">
+          <div class="wrap">
+            <div class="hero-top">
+              <p class="kicker">Tugas Akhir · Capstone Design — S1 Teknik Telekomunikasi, Telkom University</p>
+              <h1>Memantau solar genset STO: <span class="hl">akurat</span> untuk tiap bentuk tangki, <span class="hl">hemat energi</span> saat mengirim data.</h1>
+              <p class="lead">
+                Cetak biru pengembangan <b>Fuel Tank Management (FTM)</b>, sistem IoT (<i>Internet of Things</i>, perangkat yang mengirim data
+                lewat internet) untuk memantau BBM genset di STO. FTM lahir dari Kerja Praktik di PT Telkom Infrastruktur Indonesia
+                (TIF/InfraNexia) Area Pasuruan dan kini dipakai dalam pilot terbatas. Halaman ini merangkum masalahnya, kondisi sistem sekarang,
+                dan rencana TA.
+              </p>
+            </div>
+            <div class="hero-grid">
+              <div>
+                <div class="topic">
+                  <p class="topic-label">Topik yang disepakati dengan dosen · 15 September 2026</p>
+                  <p class="topic-title">Pengembangan Fuel Tank Management Berbasis IoT untuk Berbagai Model Tangki dengan Transmisi Data Hemat Energi</p>
+                  <ol class="pillars">
+                    <li><button type="button" data-jump-tab="p1"><span class="pn">1</span><span>Akurasi data ketersediaan BBM untuk berbagai model tangki</span><span class="go">→</span></button></li>
+                    <li><button type="button" data-jump-tab="p2"><span class="pn">2</span><span>Model transmisi data untuk penghematan energi</span><span class="go">→</span></button></li>
+                    <li><button type="button" data-jump-tab="p3"><span class="pn">3</span><span>Kajian sistem yang efektif dan efisien dari berbagai aspek</span><span class="go">→</span></button></li>
+                  </ol>
+                </div>
+                <div class="cta-row">
+                  <a class="btn btn--primary" href="#masalah">Mulai membaca</a>
+                  <a class="btn" href="#keputusan">Jawaban pertanyaan besar</a>
+                </div>
+              </div>
+
+              <figure class="viewer" aria-label="Visual tangki interaktif">
+                <div class="viewer-head">
+                  <span class="cap" id="viewer-cap">Visual tangki</span>
+                  <span class="mode-pill" id="mode-pill"><i></i><span>Mode kirim: SLOW</span></span>
+                </div>
+                <div class="tank-stage" id="tank-stage">
+                  <div class="tank-fallback" id="tank-fallback"></div>
+                  <span class="stage-hint" id="stage-hint">seret untuk memutar</span>
+                </div>
+                <figcaption class="viewer-controls">
+                  <label for="tank-shape" class="sr-only">Model tangki</label>
+                  <select id="tank-shape"></select>
+                  <div class="btn-pair">
+                    <button class="btn btn--sm" type="button" id="tank-genset" aria-pressed="false">Simulasi genset menyala</button>
+                    <button class="btn btn--sm" type="button" id="tank-refill">Simulasi isi ulang</button>
+                  </div>
+                  <div class="field">
+                    <div class="field-row"><label for="tank-level">Tinggi cairan</label><output id="tank-level-out">–</output></div>
+                    <input type="range" id="tank-level" min="0" max="100" value="62" step="0.5" />
+                  </div>
+                  <div class="readouts">
+                    <div class="readout"><div class="k">Volume</div><div class="v" id="ro-vol">–</div></div>
+                    <div class="readout"><div class="k">Kapasitas</div><div class="v" id="ro-cap">–</div></div>
+                    <div class="readout"><div class="k">Ruang kosong</div><div class="v" id="ro-gap">–</div></div>
+                    <div class="readout"><div class="k">Liter per cm</div><div class="v" id="ro-lpc">–</div></div>
+                  </div>
+                </figcaption>
+              </figure>
+            </div>
+
+            <dl class="facts">
+              <div class="fact"><dt>6–8</dt><dd>perangkat pilot di lapangan (6 terverifikasi 2 Agu, 8 menurut README 20 Sep)</dd></div>
+              <div class="fact"><dt>341.043</dt><dd>sampel telemetri tercatat sampai 10 Agustus 2026</dd></div>
+              <div class="fact"><dt>±5.760</dt><dd>request per alat per hari bila kirim tiap 15 detik, padahal level kebanyakan datar</dd></div>
+              <div class="fact"><dt>3</dt><dd>pilar TA: akurasi, transmisi hemat energi, kajian efektif-efisien</dd></div>
+            </dl>
+          </div>
+        </section>
+
+        <!-- ======================================================= MASALAH -->
+        <section class="section" id="masalah" data-nav="Masalah" data-num="01">
+          <div class="wrap">
+            <header class="section-head">
+              <p class="kicker"><span class="num">01</span>Masalah</p>
+              <h2>Kelihatannya sepele, dampaknya tidak</h2>
+              <p class="lead">
+                STO harus menjaga <i>availability</i> (ketersediaan layanan) sekitar 99,99%. Saat PLN padam, baterai menahan beban sebentar,
+                lalu genset berbahan bakar solar mengambil alih. Solar adalah pertahanan terakhir, tetapi selama ini isinya diketahui dengan
+                cara manual, berisiko, dan tanpa data.
+              </p>
+            </header>
+            <ul class="rowlist rowlist--2" id="problem-list"></ul>
+
+            <div class="subhead">
+              <h3>Simulasi: kapan solar benar-benar terpakai?</h3>
+              <p>Pilih skenario untuk melihat aliran daya, kapan genset menyala, dan mode kirim FTM 2.0.</p>
+            </div>
+            <div class="panel" id="power-sim">
+              <div class="chips" id="power-buttons" role="group" aria-label="Skenario daya"></div>
+              <div class="power-grid">
+                <div>
+                  <div class="hscroll" id="power-diagram"></div>
+                  <p class="note scroll-hint">Geser diagram ke samping untuk melihat seluruhnya.</p>
+                </div>
+                <div class="power-side">
+                  <div class="fuel-gauge"><span>Tangki harian</span><span class="bar"><i id="power-fuel" style="width: 72%"></i></span><b id="power-fuel-l">–</b></div>
+                  <div class="power-log" id="power-log" aria-live="polite"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="callout callout--fuel">
+              <div>
+                <p>
+                  <b>“Bukankah Telkom sudah punya prosedur, dan petugas sudah tahu kapan harus isi ulang?”</b> Benar. Karena itu nilai FTM
+                  bukan menggantikan penilaian petugas, tetapi menghapus pengukuran yang berisiko, memberi visibilitas banyak STO sekaligus,
+                  dan menghasilkan data untuk audit dan perencanaan.
+                  <button type="button" class="xref" data-item="d-need">Baca jawaban netralnya</button>
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================ V1 -->
+        <section class="section" id="v1" data-nav="Kondisi FTM v1" data-num="02">
+          <div class="wrap">
+            <header class="section-head">
+              <p class="kicker"><span class="num">02</span>Titik awal</p>
+              <h2>FTM v1 sudah berjalan: TA berangkat dari pilot nyata</h2>
+              <p class="lead">
+                Dalam ±2–3 minggu, FTM v1 dibangun ulang dan dipakai di lapangan: sensor ultrasonik → ESP8266 → API berkunci → MySQL cloud →
+                dashboard web dan Telegram. Biaya cloud selama pilot praktis Rp0 karena memakai kuota gratis. Nama perangkat, lokasi detail,
+                dan kredensial sengaja tidak ditampilkan.
+              </p>
+            </header>
+            <ul class="rowlist rowlist--2" id="v1-list"></ul>
+
+            <div class="two-col" style="margin-top: 48px">
+              <div>
+                <h3>Linimasa proyek</h3>
+                <p class="note" style="margin-bottom: 12px">Dari chat grup dan riwayat repositori. Titik amber = tonggak penting.</p>
+                <ol class="timeline" id="timeline"></ol>
+              </div>
+              <div>
+                <h3>Apa yang sudah terbukti</h3>
+                <ul class="list-check">
+                  <li>Alur ujung-ke-ujung dengan perangkat nyata di beberapa STO, bukan sekadar demo.</li>
+                  <li>Rollup 5 menit: 239.945 sampel diringkas menjadi 16.195 baris (±14,8×).</li>
+                  <li>Provisioning berbasis persetujuan, sehingga perangkat asing tidak bisa langsung masuk.</li>
+                  <li>160 tes otomatis, CI, dan proteksi branch utama.</li>
+                  <li>Kolaborasi dengan engineer lapangan yang paham hardware dan catu daya.</li>
+                </ul>
+                <h3 style="margin-top: 30px">Celah yang menjadi ruang TA</h3>
+                <ul class="list-check is-warn">
+                  <li>Akurasi belum dikalibrasi dan belum diuji per model tangki.</li>
+                  <li>Perangkat mengirim dengan interval tetap, Wi-Fi tidak pernah tidur.</li>
+                  <li>Kuota cloud gratis mulai habis pada 24 Agustus.</li>
+                  <li>Belum ada konteks PLN/genset, sehingga penurunan level belum punya makna.</li>
+                  <li>Kode makin sulit direview, dan rahasia pernah tersebar di chat.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================================= CHAT -->
+        <section class="section" id="chat" data-nav="Suara lapangan" data-num="03">
+          <div class="wrap">
+            <header class="section-head">
+              <p class="kicker"><span class="num">03</span>Suara lapangan</p>
+              <h2>28 catatan dari chat grup proyek</h2>
+              <p class="lead">
+                Ringkasan seluruh percakapan 26 Juni–17 September 2026 (termasuk gambar dan file), per kejadian, lengkap dengan kategori dan
+                pilar TA yang relevan. Nama orang dan semua kredensial sengaja tidak ditampilkan.
+              </p>
+            </header>
+            <div class="chips" id="issue-filters" role="group" aria-label="Filter kategori"></div>
+            <div class="issue-list" id="issue-list"></div>
+            <div class="more-row" id="issue-more"></div>
+          </div>
+        </section>
+
+        <!-- ======================================================== AUDIT -->
+        <section class="section" id="audit" data-nav="Audit kode v1" data-num="04">
+          <div class="wrap">
+            <header class="section-head">
+              <p class="kicker"><span class="num">04</span>Audit teknis</p>
+              <h2>Temuan dari membaca kode FTM v1</h2>
+              <p class="lead">
+                Acuan: repositori publik commit <code>4bda023</code> (2 Agustus 2026; belum ada commit baru sampai 28 September) dan contoh
+                CSV lapangan. Setiap temuan menyebut bukti (file dan baris), dampak, dan usulan perbaikan. Tujuannya bukan menyalahkan: v1
+                dibangun cepat untuk membuktikan alur, dan itu berhasil.
+              </p>
+            </header>
+            <div class="chips" id="finding-filters" role="group" aria-label="Filter tingkat"></div>
+            <div class="table-wrap">
+              <table id="finding-table">
+                <thead>
+                  <tr><th>Tingkat</th><th>Temuan</th><th>Area</th><th>Pilar</th></tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ======================================================== PILAR -->
+        <section class="section" id="pilar" data-nav="Tiga pilar TA" data-num="05">
+          <div class="wrap">
+            <header class="section-head">
+              <p class="kicker"><span class="num">05</span>Inti TA</p>
+              <h2>Tiga pilar, masing-masing menjadi pertanyaan riset yang bisa diukur</h2>
+              <p class="lead">
+                Arahan dosen: <i>meningkatkan akurasi data ketersediaan BBM untuk berbagai model tangki, mencari model transmisi data demi
+                penghematan energi, dan mengkaji sistem yang efektif-efisien dari berbagai aspek.</i> Setiap pilar punya konsep, simulator untuk
+                berpikir, dan eksperimen untuk membuktikan.
+              </p>
+            </header>
+
+            <div class="cards">
+              <div class="card"><span class="badge badge--info" style="width: fit-content">RQ1 · Akurasi</span><p>Seberapa akurat estimasi volume untuk berbagai geometri tangki setelah kalibrasi dan kompensasi suhu, dibanding v1?</p></div>
+              <div class="card"><span class="badge badge--fuel" style="width: fit-content">RQ2 · Energi & transmisi</span><p>Berapa penghematan pesan, byte, dan energi dari telemetri adaptif dibanding interval tetap, tanpa kehilangan kejadian penting?</p></div>
+              <div class="card"><span class="badge badge--violet" style="width: fit-content">RQ3 · Efektif-efisien</span><p>Arsitektur mana yang paling seimbang dari sisi biaya, keamanan, keandalan, dan skalabilitas untuk 29 STO sampai skala nasional?</p></div>
+            </div>
+
+            <div class="tabs" role="tablist" id="pillar-tabs" aria-label="Pilar TA" style="margin-top: 36px">
+              <button class="tab" role="tab" id="tab-p1" aria-controls="panel-p1" aria-selected="true" data-tab="p1">1 · Akurasi multi-tangki</button>
+              <button class="tab" role="tab" id="tab-p2" aria-controls="panel-p2" aria-selected="false" data-tab="p2" tabindex="-1">2 · Transmisi hemat energi</button>
+              <button class="tab" role="tab" id="tab-p3" aria-controls="panel-p3" aria-selected="false" data-tab="p3" tabindex="-1">3 · Kajian efektif-efisien</button>
+            </div>
+
+            <div class="tab-panel" role="tabpanel" id="panel-p1" aria-labelledby="tab-p1">
+              <ul class="rowlist" id="p1-concepts"></ul>
+              <div class="subhead">
+                <h3>Kalkulator akurasi volume</h3>
+                <p>Ubah suhu, salah ukur pemasangan, dan kemiringan sensor. Lihat berapa liter selisihnya.</p>
+              </div>
+              <div class="panel" id="acc-sim"></div>
+            </div>
+
+            <div class="tab-panel" role="tabpanel" id="panel-p2" aria-labelledby="tab-p2" hidden>
+              <ul class="rowlist" id="p2-concepts"></ul>
+              <div class="subhead">
+                <h3>Simulator telemetri 24 jam</h3>
+                <p>Bandingkan strategi kirim pada hari yang sama: pesan, byte, energi, latensi deteksi kejadian, dan umur baterai.</p>
+              </div>
+              <div class="panel" id="tel-sim"></div>
+              <div class="subhead">
+                <h3>Anatomi payload: v1 vs ringkas</h3>
+                <p>Ukuran byte dihitung langsung di browser dari contoh payload (nilai disamarkan).</p>
+              </div>
+              <div class="payload-compare" id="payload-compare"></div>
+            </div>
+
+            <div class="tab-panel" role="tabpanel" id="panel-p3" aria-labelledby="tab-p3" hidden>
+              <ul class="rowlist" id="p3-concepts"></ul>
+              <div class="subhead">
+                <h3>Kalkulator kuota cloud (Vercel Hobby)</h3>
+                <p>Kenapa kuota hampir habis di Agustus, dan berapa ruang yang tersisa dengan telemetri adaptif?</p>
+              </div>
+              <div class="panel" id="cloud-sim"></div>
+              <div class="subhead">
+                <h3>Matriks keputusan arsitektur</h3>
+                <p>Geser bobot sesuai prioritas. Klik alternatif untuk melihat alasan skornya.</p>
+              </div>
+              <div class="panel" id="matrix"></div>
+              <div class="subhead">
+                <h3>Nilai operasional (ilustrasi)</h3>
+                <p>Berapa jam kerja dan paparan risiko panjat yang dibebaskan dari pengecekan rutin?</p>
+              </div>
+              <div class="panel" id="ops-sim"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- =================================================== ARSITEKTUR -->
+        <section class="section" id="arsitektur" data-nav="Arsitektur" data-num="06">
+          <div class="wrap">
+            <header class="section-head">
+              <p class="kicker"><span class="num">06</span>Arsitektur</p>
+              <h2>Dari kondisi sekarang (AS-IS) ke usulan (TO-BE)</h2>
+              <p class="lead">
+                Klik kotak mana pun untuk penjelasannya. Garis putus-putus hijau = aliran data utama, ungu = jalur lokal/internal tanpa
+                internet, merah = titik lemah. Kotak bergaris putus-putus bersifat opsional atau fase lanjut.
+              </p>
+            </header>
+            <div class="arch-toolbar">
+              <div class="seg" role="group" aria-label="Pilih diagram" id="arch-mode">
+                <button type="button" data-mode="asis" aria-pressed="false">AS-IS · FTM v1</button>
+                <button type="button" data-mode="tobe" aria-pressed="true">TO-BE · FTM 2.0</button>
+              </div>
+              <label class="check"><input type="checkbox" id="arch-listview" /> Tampilkan sebagai daftar</label>
+            </div>
+            <div class="arch-scroll" id="arch-scroll"><svg class="arch-svg" id="arch-svg" role="group" aria-label="Diagram arsitektur"></svg></div>
+            <div class="arch-list" id="arch-list" hidden></div>
+            <div class="arch-legend">
+              <span><i class="data"></i>aliran data</span>
+              <span><i class="local"></i>jalur lokal / internal</span>
+              <span><i></i>kontrol & pendukung</span>
+              <span><i class="risk"></i>titik lemah</span>
+            </div>
+
+            <div class="subhead">
+              <h3>Satu hari di STO dengan FTM 2.0</h3>
+              <p>Pilih jam untuk melihat bagian mana yang bekerja dan mode kirim apa yang aktif.</p>
+            </div>
+            <div class="stepper" id="day-stepper"></div>
+          </div>
+        </section>
+
+        <!-- ==================================================== KEPUTUSAN -->
+        <section class="section" id="keputusan" data-nav="Keputusan besar" data-num="07">
+          <div class="wrap">
+            <header class="section-head">
+              <p class="kicker"><span class="num">07</span>Keputusan besar</p>
+              <h2>Jawaban netral untuk pertanyaan-pertanyaan besar</h2>
+              <p class="lead">
+                RTU, machine learning, notifikasi, chatbot, instalasi, Telegram, protokol, replikasi di Bandung, nilai jangka panjang, rebuild,
+                struktur repo, dan hubungannya dengan jurusan. Label: <span class="verdict verdict--yes">Ya</span>
+                <span class="verdict verdict--cond">Ya, dengan syarat</span> <span class="verdict verdict--later">Nanti / opsional</span>.
+              </p>
+            </header>
+            <ul class="rowlist" id="decision-list"></ul>
+          </div>
+        </section>
+
+        <!-- ======================================================== FITUR -->
+        <section class="section" id="fitur" data-nav="Fitur FTM 2.0" data-num="08">
+          <div class="wrap">
+            <header class="section-head">
+              <p class="kicker"><span class="num">08</span>Fitur</p>
+              <h2>Katalog fitur dengan prioritas MoSCoW</h2>
+              <p class="lead">
+                <b>Must</b> = inti TA, wajib selesai. <b>Should</b> = sangat disarankan. <b>Could</b> = bila waktu tersisa. <b>Won't</b> = sengaja
+                tidak dikerjakan dalam TA. Mengunci prioritas sejak awal mencegah scope melebar.
+              </p>
+            </header>
+            <div class="chips" id="feature-filters" role="group" aria-label="Filter prioritas"></div>
+            <div class="table-wrap">
+              <table id="feature-table">
+                <thead>
+                  <tr><th>Fitur</th><th>Prioritas</th><th>Pilar</th></tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ======================================================== STACK -->
+        <section class="section" id="stack" data-nav="Stack & repo" data-num="09">
+          <div class="wrap">
+            <header class="section-head">
+              <p class="kicker"><span class="num">09</span>Teknologi</p>
+              <h2>Stack dan struktur repositori</h2>
+              <p class="lead">
+                Membandingkan FTM v1, proyek CoE BHT, video “Tech Stack 2026”, dan rekomendasi TA. Tujuannya bukan memakai yang paling baru,
+                tetapi yang paling mudah dirawat tim 2 orang, portabel bila kelak di-host internal Telkom, dan bernilai di pasar kerja.
+              </p>
+            </header>
+            <div class="table-wrap">
+              <table id="stack-table">
+                <thead>
+                  <tr><th>Lapisan</th><th>FTM v1</th><th>CoE BHT</th><th>Video PZN</th><th>Rekomendasi</th></tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+
+            <div class="two-col" style="margin-top: 40px">
+              <div>
+                <h3>Struktur monorepo yang diusulkan</h3>
+<pre class="tree"><span class="h">ftm-next/</span>
+├─ <span class="h">apps/</span>
+│  ├─ web/          <span class="c"># Next.js: dashboard, admin, installer</span>
+│  └─ api/          <span class="c"># Hono: ingest + policy, auth perangkat</span>
+├─ <span class="h">packages/</span>
+│  ├─ core/         <span class="c"># geometri, kalibrasi, kualitas, kejadian</span>
+│  ├─ db/           <span class="c"># skema Drizzle + migrasi</span>
+│  └─ contracts/    <span class="c"># skema Zod payload & policy</span>
+├─ <span class="h">firmware/</span>         <span class="c"># PlatformIO ESP32: mesin status, buffer</span>
+├─ <span class="h">experiments/</span>      <span class="c"># notebook Python + data E1–E8</span>
+├─ <span class="h">infra/</span>            <span class="c"># docker-compose untuk self-host</span>
+└─ <span class="h">docs/</span>             <span class="c"># ADR, runbook, serah terima</span></pre>
+              </div>
+              <div class="prose">
+                <h3>Tentang video dan alat yang dirujuk</h3>
+                <p>
+                  <b>Video “Tech Stack 2026” (Programmer Zaman Now):</b> TypeScript, Svelte + Bun di frontend, Bun + ElysiaJS + Drizzle di
+                  backend. Yang diambil: TypeScript dan Drizzle. Bun boleh untuk tooling. Untuk API dipilih Hono karena berjalan di Bun maupun
+                  Node, jadi tidak terkunci ke satu runtime. <button type="button" class="xref" data-item="stack-api">Perbandingan framework API</button>
+                </p>
+                <p>
+                  <b>CoE BHT:</b> NestJS dan Next.js di repo terpisah, PostgreSQL + Drizzle, Better Auth, Infisical. Yang diambil: Drizzle,
+                  Better Auth, disiplin pengelolaan rahasia. Yang tidak: polyrepo dan NestJS, terlalu berat untuk tim 2 orang dengan API kecil.
+                </p>
+                <p>
+                  <b>Archify:</b> bagus untuk diagram proposal dan slide, bukan fondasi website.
+                  <button type="button" class="xref" data-item="d-archify">Detail</button>
+                </p>
+                <p class="note">
+                  “Rebuild dari nol” berarti kode baru yang bersih, tetapi v1 tetap melayani lapangan sampai v2 terbukti.
+                  <button type="button" class="xref" data-item="d-rebuild">Kenapa</button>
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- =================================================== EKSPERIMEN -->
+        <section class="section" id="eksperimen" data-nav="Eksperimen" data-num="10">
+          <div class="wrap">
+            <header class="section-head">
+              <p class="kicker"><span class="num">10</span>Pembuktian</p>
+              <h2>Delapan eksperimen dengan hipotesis, alat ukur, dan kriteria berhasil</h2>
+              <p class="lead">
+                Inilah yang membedakan TA dari sekadar menambah fitur: setiap klaim (lebih akurat, lebih hemat, lebih efisien) dibuktikan
+                dengan angka. Target numerik adalah usulan awal yang perlu disepakati dengan pembimbing.
+              </p>
+            </header>
+            <ul class="rowlist rowlist--2" id="exp-list"></ul>
+          </div>
+        </section>
+
+        <!-- ====================================================== ROADMAP -->
+        <section class="section" id="roadmap" data-nav="Roadmap" data-num="11">
+          <div class="wrap">
+            <header class="section-head">
+              <p class="kicker"><span class="num">11</span>Rencana</p>
+              <h2>Roadmap ±11 bulan, Oktober 2026 – Agustus 2027</h2>
+              <p class="lead">
+                Pembagian lead per pilar hanya contoh. Sesuaikan dengan kekuatan tiap anggota dan jadwal resmi TA di kampus. Belah ketupat =
+                milestone. Klik baris atau batang untuk detail.
+              </p>
+            </header>
+            <div class="gantt-scroll"><div class="gantt" id="gantt"></div></div>
+            <div class="cards" style="margin-top: 20px">
+              <div class="card"><h4>Anggota 1 (contoh: Zaenal)</h4><p>Lead pilar 2 dan 3: firmware mesin status, protokol, pengukuran energi, API + policy, analisis biaya/skala, analisis data Python.</p></div>
+              <div class="card"><h4>Anggota 2</h4><p>Lead pilar 1: sensor dan geometri, testbed tangki, kalibrasi, kompensasi suhu, dashboard dan UX notifikasi.</p></div>
+              <div class="card"><h4>Dua pembimbing + lapangan</h4><p>Checkpoint dua mingguan: baseline & izin (Okt), desain (Des), prototype freeze (Mar), hasil eksperimen (Mei), draf buku (Jul).</p></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ======================================================= KARIER -->
+        <section class="section" id="karier" data-nav="Nilai untuk CV" data-num="12">
+          <div class="wrap">
+            <header class="section-head">
+              <p class="kicker"><span class="num">12</span>Karier</p>
+              <h2>Kenapa TA ini kuat untuk profil Telekomunikasi + Data</h2>
+              <p class="lead">
+                Nilainya bukan pada kata “IoT” atau “AI”, tetapi pada bukti: masalah nyata, keputusan berbasis angka, eksperimen terkontrol,
+                dan sistem yang dipakai orang. Klik peran untuk melihat bukti yang relevan.
+              </p>
+            </header>
+            <ul class="rowlist rowlist--2" id="role-list"></ul>
+            <div class="two-col" style="margin-top: 44px">
+              <div>
+                <h3>Contoh bullet CV</h3>
+                <p class="note">Isi angka [X] setelah eksperimen. Jangan diisi sebelum ada hasil ukur, karena angka inilah yang akan ditanyakan pewawancara.</p>
+                <ul class="list-check" id="cv-bullets"></ul>
+              </div>
+              <div class="prose">
+                <h3>Cerita 60 detik untuk wawancara</h3>
+                <ol id="talking"></ol>
+                <p class="note">
+                  Untuk jalur Jepang (FAST OFFER), cerita ini cocok dengan budaya yang menghargai proses dan pengukuran teliti. Siapkan versi
+                  bahasa Jepang sederhana setelah hasil eksperimen ada. Program pelatihan tidak menjamin penempatan kerja, tetapi portofolio yang
+                  terukur memperkuat posisi.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ======================================================= RISIKO -->
+        <section class="section" id="risiko" data-nav="Risiko" data-num="13">
+          <div class="wrap">
+            <header class="section-head">
+              <p class="kicker"><span class="num">13</span>Risiko</p>
+              <h2>Risiko yang perlu dikelola sejak awal</h2>
+            </header>
+            <div class="table-wrap">
+              <table id="risk-table">
+                <thead>
+                  <tr><th>Risiko</th><th>Dampak</th><th>Mitigasi</th></tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+            <div class="callout callout--warn">
+              <div>
+                <p>
+                  <b>Keselamatan dan kewenangan.</b> Jangan membuka panel ATS/genset, menyambung ke catu −48 V, atau memasang alat di area BBM
+                  tanpa teknisi berwenang dan izin kerja. Semua uji awal dilakukan dengan air di laboratorium.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================================================== EVALUASI -->
+        <section class="section" id="evaluasi" data-nav="Evaluasi dokumen AI" data-num="14">
+          <div class="wrap">
+            <header class="section-head">
+              <p class="kicker"><span class="num">14</span>Evaluasi netral</p>
+              <h2>Menilai tiga dokumen konsep berbantuan AI</h2>
+              <p class="lead">Dokumen 11 dan 14 September. Tidak membela, tidak menyalahkan: yang tepat dipakai, yang kurang dilengkapi, yang keliru dikoreksi.</p>
+            </header>
+            <div class="crit-list" id="critique-list"></div>
+            <div class="callout">
+              <div>
+                <p><b>Usulan judul yang menggabungkan arahan dosen dan nilai CV</b> (tetap menunggu keputusan pembimbing):</p>
+                <ul>
+                  <li><i>Pengembangan Fuel Tank Management Berbasis IoT dengan Estimasi Volume Multi-Geometri Tangki dan Transmisi Data Adaptif Hemat Energi pada Site Telekomunikasi</i></li>
+                  <li><i>Energy-Efficient Event-Aware IoT Fuel Tank Management with Multi-Geometry Volume Estimation for Telecommunication Sites</i> (versi CV)</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ======================================================= SUMBER -->
+        <section class="section" id="sumber" data-nav="Sumber" data-num="15">
+          <div class="wrap">
+            <header class="section-head">
+              <p class="kicker"><span class="num">15</span>Sumber</p>
+              <h2>Daftar sumber</h2>
+              <p class="lead">
+                Sumber internal (chat, laporan, foto) tidak dipublikasikan dan hanya disebut jenisnya. Sumber publik diberi tautan. Angka
+                simulasi di halaman ini adalah asumsi awal sampai diganti hasil eksperimen.
+              </p>
+            </header>
+            <div class="chips" id="ref-filters" role="group" aria-label="Filter jenis sumber"></div>
+            <ul class="ref-list" id="ref-list"></ul>
+          </div>
+        </section>
+
+        <footer class="footer">
+          <div class="wrap">
+            <p>
+              <b>Cetak Biru FTM 2.0</b>: dokumen perencanaan akademik (Tugas Akhir / Capstone Design) oleh Muhammad Zaenal Abidin Abdurrahman
+              dan tim, S1 Teknik Telekomunikasi, Telkom University. Versi <span id="meta-version"></span>, diperbarui <span id="meta-updated"></span>.
+            </p>
+            <p>
+              Bukan situs resmi PT Telkom Indonesia, PT Telkom Infrastruktur Indonesia, maupun InfraNexia. Data lapangan disamarkan. Halaman ini
+              tidak memuat kredensial, alamat jaringan internal, atau data pribadi.
+            </p>
+            <p>
+              <a href="https://github.com/Zendin110206/ftm-capstone-blueprint" rel="noopener" target="_blank">Kode sumber halaman ini</a> ·
+              <a href="https://github.com/Zendin110206/solar-tank-monitoring-system" rel="noopener" target="_blank">Repositori FTM v1</a>
+            </p>
+          </div>
+        </footer>
+      </main>
+    </div>
+
+    <button class="btn btn--sm back-top" id="back-top" type="button" aria-label="Kembali ke atas">↑ Atas</button>
+
+    <div class="scrim" id="scrim"></div>
+    <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title" aria-hidden="true">
+      <div class="drawer-head">
+        <div>
+          <p class="kicker" id="drawer-kicker"></p>
+          <h2 id="drawer-title"></h2>
+          <div class="badges" id="drawer-badges"></div>
+        </div>
+        <button class="icon-btn" type="button" id="drawer-close" aria-label="Tutup detail">✕</button>
+      </div>
+      <div class="drawer-body" id="drawer-body"></div>
+      <div class="drawer-foot">
+        <span>Esc untuk menutup. Tautan detail bisa dibagikan.</span>
+        <button class="btn btn--sm" type="button" id="drawer-copy">Salin tautan</button>
+      </div>
+    </aside>
+
+    <div class="palette" id="palette" hidden>
+      <div class="palette-box" role="dialog" aria-modal="true" aria-label="Cari topik">
+        <label for="palette-input" class="sr-only">Cari topik</label>
+        <input id="palette-input" type="search" placeholder="Cari: RTU, energi, kalibrasi, MQTT, kuota, chatbot…" autocomplete="off" />
+        <ul class="palette-results" id="palette-results" role="listbox"></ul>
+        <div class="palette-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> pilih</span><span><kbd>Enter</kbd> buka</span><span><kbd>Esc</kbd> tutup</span></div>
+      </div>
+    </div>
+  </body>
+</html>
