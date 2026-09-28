@@ -6,6 +6,8 @@
 ![Static site](https://img.shields.io/badge/site-static%20HTML%2FCSS%2FJS-0e6f7a)
 ![Language](https://img.shields.io/badge/content-Bahasa%20Indonesia-b8620a)
 
+**Live site:** https://ftm-capstone-blueprint.vercel.app
+
 > The site content is written in Bahasa Indonesia for the supervisors and field team. This README is in English.
 
 ---
